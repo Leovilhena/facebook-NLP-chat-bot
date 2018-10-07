@@ -1,5 +1,5 @@
 import pytest
-from src.webserver import app
+from webserver import app
 from apps.chat_bot import chat_bot
 
 @pytest.fixture
