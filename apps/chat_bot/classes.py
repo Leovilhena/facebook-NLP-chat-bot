@@ -3,6 +3,7 @@ from apps.chat_bot.helpers import get_tone_analyzer, analyze_tone, parse_analyze
 
 
 class Bot:
+    """Chat bot class"""
     def __init__(self, user_id: str, mood_value: int = 0) -> None:
         self.user_id = user_id
         self.tone_analyzer = get_tone_analyzer()
@@ -22,15 +23,18 @@ class Bot:
                f'{self.user_id!r}, {self.mood_value!r})'
 
     def _analyze(self, text: str) -> int:
+        """Analyzes text with IBM Watson Tone Analyzer"""
         tone_info = analyze_tone(self.tone_analyzer, text)
         return parse_analyzed_tone(tone_info)
 
     @property
     def mood_value(self) -> int:
+        """Numerical representation of mood"""
         return self._mood_value
 
     @mood_value.setter
     def mood_value(self, tone_score: int) -> None:
+        """Mood value setter"""
         value = clamp(-1, tone_score, 1)
         self._mood_value = value
 

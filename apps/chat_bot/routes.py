@@ -37,10 +37,7 @@ async def facebook_message_handler(request):
     data = prepare_data(sender_id, bot_reply)
 
     async with aiohttp.ClientSession(headers={'Content-type': 'application/json'}) as session:
-        result, status_code = await send_message(session, data)
-
-    if 'error' in result or status_code != 200:
-        raise ServerError("Error while connecting to Facebook's API")
+        await send_message(session, data)
 
     return json({
         'sender': sender_id,
