@@ -4,10 +4,36 @@ from apps.chat_bot.config import version, username, password, url
 from watson_developer_cloud import ToneAnalyzerV3, WatsonApiException
 from watson_developer_cloud.tone_analyzer_v3 import ToneInput
 
-
 T = TypeVar(ToneAnalyzerV3)
 
-def get_tone_analyzer():
+bot_aswers = {
+    'positive': [
+        "Oh, that's very kind of you.",
+        "That's great!",
+        "Glad to hear.",
+        "Hurra!",
+        ":)"
+    ],
+    'neutral': [
+        "Interesting. Ok.",
+        "I see...",
+        "Well...",
+        "I don't know what to say.",
+        "Hm..."
+    ],
+    'negative': [
+        "I feel so bad about what you wrote.",
+        "I'm sorry...",
+        "That's not good.",
+        "Please, don't say that."
+        ":(",
+    ]
+}
+
+def clamp(minimum, x, maximum):
+    return max(minimum, min(x, maximum))
+
+def get_tone_analyzer() -> T:
     return ToneAnalyzerV3(
         version=version,
         username=username,
@@ -41,3 +67,5 @@ def parse_analyzed_tone(tone_info: dict) -> int:
         return 1
     else:
         return 0
+
+

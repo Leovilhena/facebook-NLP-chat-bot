@@ -1,8 +1,13 @@
 import json
+import pytest
 from webserver import app
-from apps.chat_bot.helpers import get_tone_analyzer, analyze_tone, parse_analyzed_tone
+from apps.chat_bot.classes import Bot
+from apps.chat_bot.helpers import get_tone_analyzer, analyze_tone, parse_analyzed_tone, clamp, bot_aswers
 from watson_developer_cloud import ToneAnalyzerV3
 
+@pytest.fixture('module')
+def bot():
+    return Bot('unit9')
 
 def test_facebook_auth_handler_200():
     request, response =  app.test_client.get('/')
@@ -84,4 +89,13 @@ def test_parse_analyzed_tone():
     test_tone_info['document_tone']['tones'][0]['tone_id'] = 'sadness'
     assert parse_analyzed_tone(test_tone_info) == -1
 
+def test_clamp():
+    assert clamp(-1, 4, 1) == 1
+    assert clamp(-1, 0, 1) == 0
+    assert clamp(-1, -4, 1) == -1
 
+def test_bot(bot):
+    assert bot.user_id == 'unit9'
+    assert bot.mood == 'neutral'
+    assert bot.mood_value == 0
+    assert bot("Hello!") in bot_aswers[bot.mood]
