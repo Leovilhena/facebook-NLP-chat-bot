@@ -49,9 +49,6 @@ def analyze_tone(tone_analyzer: T, text: str) -> dict:
             'application/json'
         ).get_result()
 
-    # Return examples:
-    # Sad:        {'document_tone': {'tones': [{'score': 0.916667, 'tone_id': 'sadness', 'tone_name': 'Sadness'}]}}
-    # Neutral:    {'document_tone': {'tones': []}}
     except WatsonApiException:
         traceback.print_exc(limit=1)
 

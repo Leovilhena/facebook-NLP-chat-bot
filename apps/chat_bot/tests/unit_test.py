@@ -1,6 +1,7 @@
-import json
+import ujson
 import pytest
 from webserver import app
+from apps.chat_bot.routes import prepare_data
 from apps.chat_bot.classes import Bot
 from apps.chat_bot.helpers import get_tone_analyzer, analyze_tone, parse_analyzed_tone, clamp, bot_aswers
 from watson_developer_cloud import ToneAnalyzerV3
@@ -8,6 +9,13 @@ from watson_developer_cloud import ToneAnalyzerV3
 @pytest.fixture('module')
 def bot():
     return Bot('unit9')
+
+@pytest.fixture('module')
+def data():
+    return ujson.dumps({
+        'recipient': {'id': 'id'},
+        'message': {'text': 'text'}
+    })
 
 def test_facebook_auth_handler_200():
     request, response =  app.test_client.get('/')
@@ -36,7 +44,7 @@ def test_facebbok_auth_handler_verify_token_403():
     assert response.status == 403
 
 def test_facebook_message_handler_400():
-    test_data = json.dumps({
+    test_data = ujson.dumps({
         'sender': 'id',
         'message': {
             'text':'message'
@@ -49,7 +57,7 @@ def test_facebook_message_handler_400():
     assert response.status == 400
 
 def test_facebook_message_handler_500():
-    test_data = json.dumps({
+    test_data = ujson.dumps({
         'sender': {
             'id':'12'
         },
@@ -99,3 +107,12 @@ def test_bot(bot):
     assert bot.mood == 'neutral'
     assert bot.mood_value == 0
     assert bot("Hello!") in bot_aswers[bot.mood]
+
+def test_prepare_data(data):
+    sender_id = 'id'
+    text = 'text'
+    prepared_data = prepare_data(sender_id, text)
+    assert ujson.loads(prepared_data)
+    assert prepared_data == data
+
+
