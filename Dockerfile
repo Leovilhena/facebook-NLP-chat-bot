@@ -4,7 +4,7 @@ LABEL maintainer="leosvilhena@icloud.com"
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 ENV HOST '127.0.0.1'
-ENV PORT 443
+ENV PORT 8080
 
 RUN mkdir webserver
 WORKDIR /webserver
@@ -27,6 +27,6 @@ RUN set -ex \
 
 RUN chmod u+x ./webserver.py
 
-EXPOSE 443
+EXPOSE 8080
 
 ENTRYPOINT ["python3.7", "webserver.py"]

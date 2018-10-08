@@ -30,10 +30,12 @@ bot_aswers = {
     ]
 }
 
-def clamp(minimum, x, maximum):
+def clamp(minimum: [int, float], x: [int, float], maximum: [int, float]) -> [int, float]:
+    """Returns x according to mininmum and maximum limits"""
     return max(minimum, min(x, maximum))
 
 def get_tone_analyzer() -> T:
+    """Returns ToneAnalyzer object"""
     return ToneAnalyzerV3(
         version=version,
         username=username,
@@ -42,6 +44,7 @@ def get_tone_analyzer() -> T:
     )
 
 def analyze_tone(tone_analyzer: T, text: str) -> dict:
+    """Analyzes text input with tone analyzer object"""
     try:
         tone_input = ToneInput(text)
         return tone_analyzer.tone(
@@ -53,6 +56,7 @@ def analyze_tone(tone_analyzer: T, text: str) -> dict:
         traceback.print_exc(limit=1)
 
 def parse_analyzed_tone(tone_info: dict) -> int:
+    """Parses the tone info and translates it into integer"""
     try:
         tone = tone_info['document_tone']['tones'][0]['tone_id']
     except (ValueError, IndexError, KeyError):
