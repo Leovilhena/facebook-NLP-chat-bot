@@ -1,10 +1,10 @@
 import pytest
-from src.webserver import app
-from apps.chat_bot import chat_bot
+from webserver import app
+from apps.chat_bot import routes
 
 @pytest.fixture
 def app():
-    app.blueprint(chat_bot.chat_bot_blueprint)
+    app.blueprint(routes.chat_bot_blueprint)
     yield app
 
 @pytest.fixture

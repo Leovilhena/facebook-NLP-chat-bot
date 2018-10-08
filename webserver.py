@@ -1,9 +1,9 @@
 import os
 from sanic import Sanic
-from apps.chat_bot import chat_bot
+from apps.chat_bot import routes
 
 app = Sanic(__name__)
-app.blueprint(chat_bot.chat_bot_blueprint)
+app.blueprint(routes.chat_bot_blueprint)
 
 host = os.environ.get('HOST', 'localhost')
 port = os.environ.get('PORT', 8080)
