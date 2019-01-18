@@ -1,4 +1,4 @@
-# Welcome to Facebbok Chat Bot!
+# Welcome to Facebook Chat Bot!
 The goal of this project is to create an emotional Facebook Messenger chat bot.
 Depending on whether the user sends it a positive or negative message, it will gradually get happier or sadder,
 which will determine its responses. All the responses are generic and simply visualise the mood of the bot.
